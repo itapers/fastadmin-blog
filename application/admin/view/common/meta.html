@@ -1,0 +1,21 @@
+<meta charset="utf-8">
+<meta http-equiv="X-UA-Compatible" content="IE=edge">
+<title>{$title|default=''}</title>
+<!-- Tell the browser to be responsive to screen width -->
+<meta content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no" name="viewport">
+<!-- Theme style -->
+<link rel="stylesheet" href="/assets/css/backend.css?v={$config.site.version}">
+<!-- iCheck -->
+<!-- <link rel="stylesheet" href="../../plugins/iCheck/square/blue.css"> -->
+
+<!-- HTML5 Shim and Respond.js IE8 support of HTML5 elements and media queries -->
+<!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
+<!--[if lt IE 9]>
+<script src="/assets/css/html5shiv.min.js"></script>
+<script src="/assets/css/respond.min.js"></script>
+<![endif]-->
+<script>
+  var require = {
+    config: {$config|raw|json_encode}
+};
+</script>

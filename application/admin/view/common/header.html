@@ -1,0 +1,89 @@
+<!-- Logo -->
+<a href="{:url('index/index')}" class="logo">
+    <!-- mini logo for sidebar mini 50x50 pixels -->
+    <span class="logo-mini">
+        {$site.name|mb_substr=0,4,'utf-8'|mb_strtoupper='utf-8'}
+    </span>
+    <!-- logo for regular state and mobile devices -->
+    <span class="logo-lg">
+        <b>{$site.name|mb_substr=0,4,'utf-8'}</b>{$site.name|mb_substr=4,null,'utf-8'}
+    </span>
+</a>
+<!-- Header Navbar: style can be found in header.less -->
+<nav class="navbar navbar-static-top">
+    <!-- Sidebar toggle button-->
+    <a href="#" class="sidebar-toggle" data-toggle="offcanvas" role="button">
+        <span class="sr-only">Toggle navigation</span>
+    </a>
+    <div id="nav" class="pull-left">
+        <!--如果不想在顶部显示角标,则给ul加上disable-top-badge类即可-->
+        <ul class="nav nav-tabs nav-addtabs disable-top-badge" role="tablist">
+        </ul>
+    </div>
+    <div class="navbar-custom-menu">
+        <ul class="nav navbar-nav">
+            <li>
+                <a href="javascript:;" data-toggle="wipecache" title="清空缓存">
+                    <i class="fa fa-trash"></i>
+                </a>
+            </li>
+            <li class="hidden-xs">
+                <a href="#" data-toggle="fullscreen" title="全屏"><i class="fa fa-arrows-alt"></i></a>
+            </li>
+            <!-- User Account: style can be found in dropdown.less -->
+            <li class="dropdown user user-menu">
+                <a href="#" class="dropdown-toggle" data-toggle="dropdown">
+                    <img src="{$admin.avatar|default='/assets/img/avatar.png'}" class="user-image" alt="User Image">
+                    <span class="hidden-xs">{$admin.nickname}</span>
+                </a>
+                <ul class="dropdown-menu">
+                    <!-- User image -->
+                    <li class="user-header">
+                        <img src="{$admin.avatar|default='/assets/img/avatar.png'}" class="img-circle" alt="User Image">
+
+                        <p>
+                            {$admin.nickname}
+                            <small>{$admin.logintime|date="Y-m-d H:i:s"}</small>
+                        </p>
+                    </li>
+                    <!-- Menu Body -->
+                    <!-- <li class="user-body">
+                        <div class="row">
+                            <div class="col-xs-4 text-center">
+                                <a href="#">Followers</a>
+                            </div>
+                            <div class="col-xs-4 text-center">
+                                <a href="#">Sales</a>
+                            </div>
+                            <div class="col-xs-4 text-center">
+                                <a href="#">Friends</a>
+                            </div>
+                        </div>
+                    </li> -->
+                    <!-- Menu Footer-->
+                    <li class="user-footer">
+                        <div class="pull-left">
+                            <a href="{:url('general/profile')}" class="btn btn-primary addtabsit">
+                                <i class="fa fa-user"></i>
+                                个人配置
+                            </a>
+                        </div>
+                        <div class="pull-right">
+                            <a href="{:url('index/logout')}" class="btn btn-danger">
+                                <i class="fa fa-sign-out"></i>
+                                退出
+                            </a>
+                        </div>
+                    </li>
+                </ul>
+            </li>
+            <!-- Control Sidebar Toggle Button -->
+            <!-- <li>
+                <a href="#" data-toggle="control-sidebar">
+                    <i class="fa fa-gears"></i>
+                </a>
+            </li> -->
+            
+        </ul>
+    </div>
+</nav>
