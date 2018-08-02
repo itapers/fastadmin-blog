@@ -6,6 +6,8 @@ define(['jquery', 'bootstrap', 'backend', 'datatable', 'form'], function ($, und
             dataTable.api.init({
                 "columns": [
                     { 'needControlShow':true, data: 'id', title: '主键'},
+                    { 'needControlShow':true, data: 'category_id', title: '分类ID'},
+                    { 'needControlShow':true, data: 'category_ids', title: '分类集合'},
                     { 'needControlShow':true, data: 'title', title: '文章标题'},
                     { 'needControlShow':true, data: 'author', title: '作者'},
                     { 'needControlShow':true, data: 'desc', title: '简介'},

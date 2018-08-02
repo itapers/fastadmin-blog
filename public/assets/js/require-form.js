@@ -1,8 +1,8 @@
-define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, Upload, Validator) {
+define(['jquery', 'bootstrap', 'upload', 'validator'], function($, undefined, Upload, Validator) {
     var Form = {
         config: {},
         events: {
-            validator: function (form, success, error, submit) {
+            validator: function(form, success, error, submit) {
                 if (!form.is("form"))
                     return;
                 //绑定表单事件
@@ -13,10 +13,10 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                     formClass: 'n-default n-bootstrap',
                     msgClass: 'n-right',
                     stopOnError: true,
-                    display: function (elem) {
+                    display: function(elem) {
                         return $(elem).closest('.form-group').find(".control-label").text().replace(/\:/, '');
                     },
-                    target: function (input) {
+                    target: function(input) {
                         var $formitem = $(input).closest('.form-group'),
                             $msgbox = $formitem.find('span.msg-box');
                         if (!$msgbox.length) {
@@ -24,13 +24,13 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                         }
                         return $msgbox;
                     },
-                    valid: function (ret) {
+                    valid: function(ret) {
                         var that = this,
                             submitBtn = $(".layer-footer [type=submit]", form);
                         that.holdSubmit();
                         $(".layer-footer [type=submit]", form).addClass("disabled");
                         //验证通过提交表单
-                        Form.api.submit($(ret), function (data, ret) {
+                        Form.api.submit($(ret), function(data, ret) {
                             that.holdSubmit(false);
                             submitBtn.removeClass("disabled");
                             if (typeof success === 'function') {
@@ -45,7 +45,7 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                             var index = parent.Layer.getFrameIndex(window.name);
                             parent.Layer.close(index);
                             return false;
-                        }, function (data, ret) {
+                        }, function(data, ret) {
                             that.holdSubmit(false);
                             submitBtn.removeClass("disabled");
                             if (typeof error === 'function') {
@@ -61,20 +61,20 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                 //移除提交按钮的disabled类
                 $(".layer-footer [type=submit],.fixed-footer [type=submit],.normal-footer [type=submit]", form).removeClass("disabled");
             },
-            selectpicker: function (form) {
+            selectpicker: function(form) {
                 //绑定select元素事件
                 if ($(".selectpicker", form).size() > 0) {
-                    require(['bootstrap-select', 'bootstrap-select-lang'], function () {
+                    require(['bootstrap-select', 'bootstrap-select-lang'], function() {
                         $('.selectpicker', form).selectpicker();
                     });
                 }
             },
-            selectpage: function (form) {
+            selectpage: function(form) {
                 //绑定selectpage元素事件
                 if ($(".selectpage", form).size() > 0) {
-                    require(['selectpage'], function () {
+                    require(['selectpage'], function() {
                         $('.selectpage', form).selectPage({
-                            eAjaxSuccess: function (data) {
+                            eAjaxSuccess: function(data) {
                                 data.list = typeof data.rows !== 'undefined' ? data.rows : (typeof data.list !== 'undefined' ? data.list : []);
                                 data.totalRow = typeof data.total !== 'undefined' ? data.total : (typeof data.totalRow !== 'undefined' ? data.totalRow : data.list.length);
                                 return data;
@@ -82,40 +82,29 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                         });
                     });
                     //给隐藏的元素添加上validate验证触发事件
-                    $(document).on("change", ".sp_hidden", function () {
+                    $(document).on("change", ".sp_hidden", function() {
                         $(this).trigger("validate");
                     });
-                    $(document).on("change", ".sp_input", function () {
+                    $(document).on("change", ".sp_input", function() {
                         $(this).closest(".sp_container").find(".sp_hidden").trigger("change");
                     });
-                    $(form).on("reset", function () {
-                        setTimeout(function () {
+                    $(form).on("reset", function() {
+                        setTimeout(function() {
                             $('.selectpage', form).selectPageClear();
                         }, 1);
                     });
                 }
             },
-            cxselect: function (form) {
-                //绑定cxselect元素事件
-                if ($("[data-toggle='cxselect']", form).size() > 0) {
-                    require(['cxselect'], function () {
-                        $.cxSelect.defaults.jsonName = 'name';
-                        $.cxSelect.defaults.jsonValue = 'value';
-                        $.cxSelect.defaults.jsonSpace = 'data';
-                        $("[data-toggle='cxselect']", form).cxSelect();
-                    });
-                }
-            },
-            citypicker: function (form) {
+            citypicker: function(form) {
                 //绑定城市远程插件
                 if ($("[data-toggle='city-picker']", form).size() > 0) {
-                    require(['citypicker'], function () {});
+                    require(['citypicker'], function() {});
                 }
             },
-            datetimepicker: function (form) {
+            datetimepicker: function(form) {
                 //绑定日期时间元素事件
                 if ($(".datetimepicker", form).size() > 0) {
-                    require(['bootstrap-datetimepicker'], function () {
+                    require(['bootstrap-datetimepicker'], function() {
                         var options = {
                             format: 'YYYY-MM-DD HH:mm:ss',
                             icons: {
@@ -137,21 +126,21 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                     });
                 }
             },
-            plupload: function (form) {
+            plupload: function(form) {
                 //绑定plupload上传元素事件
                 if ($(".plupload", form).size() > 0) {
                     Upload.api.plupload($(".plupload", form));
                 }
             },
-            faselect: function (form) {
+            faselect: function(form) {
                 //绑定fachoose选择附件事件
                 if ($(".fachoose", form).size() > 0) {
-                    $(".fachoose", form).on('click', function () {
+                    $(".fachoose", form).on('click', function() {
                         var that = this;
                         var multiple = $(this).data("multiple") ? $(this).data("multiple") : false;
                         var mimetype = $(this).data("mimetype") ? $(this).data("mimetype") : '';
                         parent.Hippo.api.open("general/attachment/select?element_id=" + $(this).attr("id") + "&multiple=" + multiple + "&mimetype=" + mimetype, '选择', {
-                            callback: function (data) {
+                            callback: function(data) {
                                 var button = $("#" + $(that).attr("id"));
                                 var maxcount = $(button).data("maxcount");
                                 var input_id = $(button).data("input-id") ? $(button).data("input-id") : "";
@@ -184,24 +173,24 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                     });
                 }
             },
-            fieldlist: function (form) {
+            fieldlist: function(form) {
                 if ($(".fieldlist", form).size() > 0) {
-                    $(".fieldlist", form).on("click", ".append", function () {
+                    $(".fieldlist", form).on("click", ".append", function() {
                         var rel = parseInt($(this).closest("dl").attr("rel")) + 1;
                         var name = $(this).closest("dl").data("name");
                         $(this).closest("dl").attr("rel", rel);
                         $('<dd class="form-inline"><input type="text" name="' + name + '[field][' + rel + ']" class="form-control" value="" size="10" /> <input type="text" name="' + name + '[value][' + rel + ']" class="form-control" value="" size="40" /> <span class="btn btn-sm btn-danger btn-remove"><i class="fa fa-times"></i></span> </dd>').insertBefore($(this).parent());
                     });
-                    $(".fieldlist", form).on("click", "dd .btn-remove", function () {
+                    $(".fieldlist", form).on("click", "dd .btn-remove", function() {
                         $(this).parent().remove();
                     });
                     //拖拽排序
-                    require(['dragsort'], function () {
+                    require(['dragsort'], function() {
                         //绑定拖动排序
                         $("dl.fieldlist", form).dragsort({
                             itemSelector: 'dd',
                             dragSelector: ".btn-dragsort",
-                            dragEnd: function () {
+                            dragEnd: function() {
 
                             },
                             placeHolderTemplate: "<dd></dd>"
@@ -209,10 +198,10 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                     });
                 }
             },
-            bindevent: function (form) {
+            bindevent: function(form) {
                 console.log('编辑器数量：', $(".editor").size())
                 if ($(".editor").size() > 0) {
-                    require(['summernote'], function () {
+                    require(['summernote'], function() {
                         $(".editor", form).summernote({
                             height: 250,
                             lang: 'zh-CN',
@@ -237,16 +226,16 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                             ],
                             dialogsInBody: true,
                             callbacks: {
-                                onChange: function (contents) {
+                                onChange: function(contents) {
                                     $(this).val(contents);
                                     $(this).trigger('change');
                                 },
-                                onInit: function () {},
-                                onImageUpload: function (files) {
+                                onInit: function() {},
+                                onImageUpload: function(files) {
                                     var that = this;
                                     //依次上传图片
                                     for (var i = 0; i < files.length; i++) {
-                                        Upload.api.send(files[i], function (data) {
+                                        Upload.api.send(files[i], function(data) {
                                             var url = Hippo.api.cdnurl(data.url);
                                             $(that).summernote("insertImage", url, 'filename');
                                         });
@@ -259,7 +248,7 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
             }
         },
         api: {
-            submit: function (form, success, error, submit) {
+            submit: function(form, success, error, submit) {
                 console.log(form)
                 if (form.size() === 0)
                     return Toastr.error("表单未初始化完成,无法提交");
@@ -293,13 +282,13 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                     dataType: 'json',
                     contentType: false, //使用FormData获取表单数据的时候需要添加以下几项
                     processData: false,
-                    complete: function (xhr) {
+                    complete: function(xhr) {
                         var token = xhr.getResponseHeader('__token__');
                         if (token) {
                             $("input[name='__token__']", form).val(token);
                         }
                     }
-                }, function (data, ret) {
+                }, function(data, ret) {
                     $('.form-group', form).removeClass('has-feedback has-success has-error');
                     if (data && typeof data === 'object') {
                         //刷新客户端token
@@ -316,7 +305,7 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                             return false;
                         }
                     }
-                }, function (data, ret) {
+                }, function(data, ret) {
                     if (data && typeof data === 'object' && typeof data.token !== 'undefined') {
                         $("input[name='__token__']", form).val(data.token);
                     }
@@ -328,7 +317,7 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function ($, undefined, U
                 });
                 return false;
             },
-            bindevent: function (form, success, error, submit) {
+            bindevent: function(form, success, error, submit) {
 
                 form = typeof form === 'object' ? form : $(form);
 
