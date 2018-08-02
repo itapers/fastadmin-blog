@@ -57,6 +57,7 @@ require.config({
         'layer': '../libs/layer/src/layer',
         'slimscroll': '../libs/jquery-slimscroll/jquery.slimscroll',
         'selectpage': '../libs/fastadmin-selectpage/selectpage',
+        'cxselect': '../libs/jquery-cxSelect/js/jquery.cxselect',
         'async': 'async',
         'BMap': ['//api.map.baidu.com/api?v=2.0&ak=mXijumfojHnAaN2VxpBGoqHM'],
     },
@@ -115,7 +116,7 @@ require.config({
     charset: 'utf-8' // 文件编码
 })
 
-require(['jquery', 'bootstrap'], function ($, undefined) {
+require(['jquery', 'bootstrap'], function($, undefined) {
     //初始配置
     var Config = requirejs.s.contexts._.config.config;
     //将Config渲染到全局
@@ -129,19 +130,19 @@ require(['jquery', 'bootstrap'], function ($, undefined) {
     });
     console.log(paths)
     //初始化
-    $(function () {
-        require(['hippo'], function (Hippo) {
-            require(['backend'], function (Backend) {
+    $(function() {
+        require(['hippo'], function(Hippo) {
+            require(['backend'], function(Backend) {
                 //加载相应模块
                 console.log(Config)
                 console.log(Config.jsname)
                 if (Config.jsname) {
-                    require([Config.jsname], function (Controller) {
+                    require([Config.jsname], function(Controller) {
                         console.log(Controller)
                         console.log(Controller[Config.actionname])
                         // console.log(Controller[Config.actionname] != undefined && Controller[Config.actionname]())
                         Controller[Config.actionname] != undefined && Controller[Config.actionname]();
-                    }, function (e) {
+                    }, function(e) {
                         console.error(e);
                         // 这里可捕获模块加载的错误
                     });

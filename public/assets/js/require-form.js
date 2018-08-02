@@ -95,6 +95,17 @@ define(['jquery', 'bootstrap', 'upload', 'validator'], function($, undefined, Up
                     });
                 }
             },
+            cxselect: function(form) {
+                //绑定cxselect元素事件
+                if ($("[data-toggle='cxselect']", form).size() > 0) {
+                    require(['cxselect'], function() {
+                        $.cxSelect.defaults.jsonName = 'name';
+                        $.cxSelect.defaults.jsonValue = 'value';
+                        $.cxSelect.defaults.jsonSpace = 'data';
+                        $("[data-toggle='cxselect']", form).cxSelect();
+                    });
+                }
+            },
             citypicker: function(form) {
                 //绑定城市远程插件
                 if ($("[data-toggle='city-picker']", form).size() > 0) {

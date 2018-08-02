@@ -28,6 +28,7 @@
         "datatables": "*",
         "jquery.addtabs": "*",
         "jquery.dragsort": "*",
+        "jquery.cxSelect": "*",
         "fastadmin-selectpage": "~1.0.0"
     },
     "authors": [
