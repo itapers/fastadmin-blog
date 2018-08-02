@@ -4,8 +4,7 @@
     "main": "",
     "license": "Apache2.0",
     "private": true,
-    "dependencies":
-    {
+    "dependencies": {
         "jquery": "^2.1.4",
         "bootstrap": "^3.3.7",
         "font-awesome": "fontawesome#^4.6.1",
@@ -27,9 +26,8 @@
         "bootstrap-daterangepicker": "^2.1.25",
         "eonasdan-bootstrap-datetimepicker": "~4.17.43",
         "datatables": "*",
-        "fastadmin-cxselect": "~1.4.0",
-        "fastadmin-dragsort": "~1.0.0",
-        "fastadmin-addtabs": "~1.0.0",
+        "jquery.addtabs": "*",
+        "jquery.dragsort": "*",
         "fastadmin-selectpage": "~1.0.0"
     },
     "authors": [
