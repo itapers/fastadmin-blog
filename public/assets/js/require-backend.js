@@ -59,7 +59,7 @@ require.config({
         'selectpage': '../libs/fastadmin-selectpage/selectpage',
         'cxselect': '../libs/jquery-cxSelect/js/jquery.cxselect',
         'async': 'async',
-        'BMap': ['//api.map.baidu.com/api?v=2.0&ak=mXijumfojHnAaN2VxpBGoqHM'],
+        'BMap': ['http://api.map.baidu.com/api?v=2.0&ak=mXijumfojHnAaN2VxpBGoqHM'],
     },
     //插件依赖
     shim: {

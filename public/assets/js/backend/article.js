@@ -1,4 +1,4 @@
-define(['jquery', 'bootstrap', 'backend', 'datatable', 'form'], function ($, undefined, Backend, dataTable, Form) {
+define(['jquery', 'bootstrap', 'backend', 'datatable', 'form','async!BMap'], function ($, undefined, Backend, dataTable, Form) {
 
     var Controller = {
         index: function () {
@@ -88,6 +88,10 @@ define(['jquery', 'bootstrap', 'backend', 'datatable', 'form'], function ($, und
 
             //TODO:为表格绑定事件
             dataTable.api.bindevent(table, tableObj);
+
+            var map = new BMap.Map("container");          // 创建地图实例
+            var point = new BMap.Point(116.404, 39.915);  // 创建点坐标
+            map.centerAndZoom(point, 15);                 // 初始化地图，设置中心点坐标和地图级别
         },
         add: function () {
             Controller.api.bindevent();
