@@ -52,6 +52,5 @@ return [
     // 是否需要进行SQL性能分析
     'sql_explain'     => false,
     // Query类
-    'query'           => '\\think\\db\\Query',
-    123
+    'query'           => '\\think\\db\\Query'
 ];

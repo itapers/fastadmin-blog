@@ -16,11 +16,13 @@ use wind\Random;
 
 class Ajax extends Backend
 {
+
     /**
      * 清空系统缓存.
      */
     public function wipecache()
     {
+        123;
         $wipe_cache_type = [Env::get('runtime_path') . 'temp/', Env::get('runtime_path') . 'log/', Env::get('runtime_path') . 'cache/'];
         foreach ($wipe_cache_type as $item) {
             // $dir = constant($item);
