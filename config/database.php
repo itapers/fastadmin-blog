@@ -53,4 +53,5 @@ return [
     'sql_explain'     => false,
     // Query类
     'query'           => '\\think\\db\\Query',
+    123
 ];
