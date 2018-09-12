@@ -109,6 +109,11 @@ class Backend extends Controller
                     $this->error('你没有权限访问', '');
                 }
             }
+            
+
+
+
+
         }
         // 不需要权限判断的菜单，完善获取当前用户获取权限菜单，防止面包屑菜单失效
         if (in_array($actionname, $this->noNeedRight)) {
