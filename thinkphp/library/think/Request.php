@@ -258,7 +258,6 @@ class Request
      * php://input内容
      * @var string
      */
-    // php://input
     protected $input;
 
     /**
@@ -523,6 +522,18 @@ class Request
     }
 
     /**
+     * 设置当前完整URL 包括QUERY_STRING
+     * @access public
+     * @param  string $url URL
+     * @return $this
+     */
+    public function setUrl($url)
+    {
+        $this->url = $url;
+        return $this;
+    }
+
+    /**
      * 获取当前完整URL 包括QUERY_STRING
      * @access public
      * @param  bool $complete 是否包含域名
@@ -545,6 +556,18 @@ class Request
         }
 
         return $complete ? $this->domain() . $this->url : $this->url;
+    }
+
+    /**
+     * 设置当前完整URL 不包括QUERY_STRING
+     * @access public
+     * @param  string $url URL
+     * @return $this
+     */
+    public function setBaseUrl($url)
+    {
+        $this->baseUrl = $url;
+        return $this;
     }
 
     /**
@@ -783,7 +806,7 @@ class Request
     {
         if ($origin) {
             // 获取原始请求类型
-            return $this->isCli() ? 'GET' : $this->server('REQUEST_METHOD');
+            return $this->server('REQUEST_METHOD') ?: 'GET';
         } elseif (!$this->method) {
             if (isset($_POST[$this->config['var_method']])) {
                 $this->method    = strtoupper($_POST[$this->config['var_method']]);
@@ -792,7 +815,7 @@ class Request
             } elseif ($this->server('HTTP_X_HTTP_METHOD_OVERRIDE')) {
                 $this->method = strtoupper($this->server('HTTP_X_HTTP_METHOD_OVERRIDE'));
             } else {
-                $this->method = $this->isCli() ? 'GET' : $this->server('REQUEST_METHOD');
+                $this->method = $this->server('REQUEST_METHOD') ?: 'GET';
             }
         }
 
@@ -986,7 +1009,7 @@ class Request
     public function post($name = '', $default = null, $filter = '')
     {
         if (empty($this->post)) {
-            $this->post = !empty($_POST) ? $_POST : $this->getJsonInputData($this->input);
+            $this->post = !empty($_POST) ? $_POST : $this->getInputData($this->input);
         }
 
         return $this->input($this->post, $name, $default, $filter);
@@ -1003,22 +1026,19 @@ class Request
     public function put($name = '', $default = null, $filter = '')
     {
         if (is_null($this->put)) {
-            $data = $this->getJsonInputData($this->input);
-
-            if (!empty($data)) {
-                $this->put = $data;
-            } else {
-                parse_str($this->input, $this->put);
-            }
+            $this->put = $this->getInputData($this->input);
         }
 
         return $this->input($this->put, $name, $default, $filter);
     }
 
-    protected function getJsonInputData($content)
+    protected function getInputData($content)
     {
-        if (false !== strpos($this->contentType(), 'application/json')) {
+        if (false !== strpos($this->contentType(), 'application/json') || 0 === strpos($content, '{"')) {
             return (array) json_decode($content, true);
+        } elseif (strpos($content, '=')) {
+            parse_str($content, $data);
+            return $data;
         }
 
         return [];
@@ -1154,12 +1174,12 @@ class Request
 
         $files = $this->file;
         if (!empty($files)) {
-            // 处理上传文件
-            $array = $this->dealUploadFile($files);
-
             if (strpos($name, '.')) {
                 list($name, $sub) = explode('.', $name);
             }
+
+            // 处理上传文件
+            $array = $this->dealUploadFile($files, $name);
 
             if ('' === $name) {
                 // 获取全部文件
@@ -1174,18 +1194,24 @@ class Request
         return;
     }
 
-    protected function dealUploadFile($files)
+    protected function dealUploadFile($files, $name)
     {
         $array = [];
         foreach ($files as $key => $file) {
-            if (is_array($file['name'])) {
+            if ($file instanceof File) {
+                $array[$key] = $file;
+            } elseif (is_array($file['name'])) {
                 $item  = [];
                 $keys  = array_keys($file);
                 $count = count($file['name']);
 
                 for ($i = 0; $i < $count; $i++) {
-                    if (empty($file['tmp_name'][$i]) || !is_file($file['tmp_name'][$i])) {
-                        continue;
+                    if ($file['error'][$i] > 0) {
+                        if ($name == $key) {
+                            $this->throwUploadFileError($file['error'][$i]);
+                        } else {
+                            continue;
+                        }
                     }
 
                     $temp['key'] = $key;
@@ -1199,19 +1225,35 @@ class Request
 
                 $array[$key] = $item;
             } else {
-                if ($file instanceof File) {
-                    $array[$key] = $file;
-                } else {
-                    if (empty($file['tmp_name']) || !is_file($file['tmp_name'])) {
+                if ($file['error'] > 0) {
+                    if ($key == $name) {
+                        $this->throwUploadFileError($file['error']);
+                    } else {
                         continue;
                     }
-
-                    $array[$key] = (new File($file['tmp_name']))->setUploadInfo($file);
                 }
+
+                $array[$key] = (new File($file['tmp_name']))->setUploadInfo($file);
             }
         }
 
         return $array;
+    }
+
+    protected function throwUploadFileError($error)
+    {
+        static $fileUploadErrors = [
+            1 => 'upload File size exceeds the maximum value',
+            2 => 'upload File size exceeds the maximum value',
+            3 => 'only the portion of file is uploaded',
+            4 => 'no file to uploaded',
+            6 => 'upload temp dir not found',
+            7 => 'file write error',
+        ];
+
+        $msg = $fileUploadErrors[$error];
+
+        throw new Exception($msg);
     }
 
     /**
@@ -1580,7 +1622,9 @@ class Request
             return $result;
         }
 
-        return $this->param($this->config['var_ajax']) ? true : $result;
+        $result           = $this->param($this->config['var_ajax']) ? true : $result;
+        $this->mergeParam = false;
+        return $result;
     }
 
     /**
@@ -1597,7 +1641,9 @@ class Request
             return $result;
         }
 
-        return $this->param($this->config['var_pjax']) ? true : $result;
+        $result           = $this->param($this->config['var_pjax']) ? true : $result;
+        $this->mergeParam = false;
+        return $result;
     }
 
     /**
@@ -2056,6 +2102,30 @@ class Request
     }
 
     /**
+     * 设置php://input数据
+     * @access public
+     * @param  string $input RAW数据
+     * @return $this
+     */
+    public function withInput($input)
+    {
+        $this->input = $input;
+        return $this;
+    }
+
+    /**
+     * 设置文件上传数据
+     * @access public
+     * @param  array $files 上传信息
+     * @return $this
+     */
+    public function withFiles(array $files)
+    {
+        $this->file = $files;
+        return $this;
+    }
+
+    /**
      * 设置COOKIE数据
      * @access public
      * @param  array $cookie 数据
@@ -2146,5 +2216,13 @@ class Request
     public function __isset($name)
     {
         return isset($this->param[$name]);
+    }
+
+    public function __debugInfo()
+    {
+        $data = get_object_vars($this);
+        unset($data['dispatch'], $data['config']);
+
+        return $data;
     }
 }

@@ -34,6 +34,10 @@ class BelongsTo extends OneToOne
         $this->joinType   = 'INNER';
         $this->query      = (new $model)->db();
         $this->relation   = $relation;
+
+        if (get_class($parent) == $model) {
+            $this->selfRelation = true;
+        }
     }
 
     /**
@@ -62,6 +66,62 @@ class BelongsTo extends OneToOne
         }
 
         return $relationModel;
+    }
+
+    /**
+     * 创建关联统计子查询
+     * @access public
+     * @param  \Closure $closure 闭包
+     * @param  string   $aggregate 聚合查询方法
+     * @param  string   $field 字段
+     * @param  string   $aggregateAlias 聚合字段别名
+     * @return string
+     */
+    public function getRelationCountQuery($closure, $aggregate = 'count', $field = '*', &$aggregateAlias = '')
+    {
+        if ($closure) {
+            $return = $closure($this->query);
+
+            if ($return && is_string($return)) {
+                $aggregateAlias = $return;
+            }
+        }
+
+        return $this->query
+            ->whereExp($this->localKey, '=' . $this->parent->getTable() . '.' . $this->foreignKey)
+            ->fetchSql()
+            ->$aggregate($field);
+    }
+
+    /**
+     * 关联统计
+     * @access public
+     * @param  Model    $result  数据对象
+     * @param  \Closure $closure 闭包
+     * @param  string   $aggregate 聚合查询方法
+     * @param  string   $field 字段
+     * @param  string   $name 统计字段别名
+     * @return integer
+     */
+    public function relationCount($result, $closure, $aggregate = 'count', $field = '*', &$name = '')
+    {
+        $foreignKey = $this->foreignKey;
+
+        if (!isset($result->$foreignKey)) {
+            return 0;
+        }
+
+        if ($closure) {
+            $return = $closure($this->query);
+
+            if ($return && is_string($return)) {
+                $name = $return;
+            }
+        }
+
+        return $this->query
+            ->where($this->localKey, '=', $result->$foreignKey)
+            ->$aggregate($field);
     }
 
     /**
@@ -204,10 +264,7 @@ class BelongsTo extends OneToOne
      */
     public function associate($model)
     {
-        $foreignKey = $this->foreignKey;
-        $pk         = $model->getPk();
-
-        $this->parent->setAttr($foreignKey, $model->$pk);
+        $this->parent->setAttr($this->foreignKey, $model->getKey());
         $this->parent->save();
 
         return $this->parent->setRelation($this->relation, $model);
@@ -220,9 +277,7 @@ class BelongsTo extends OneToOne
      */
     public function dissociate()
     {
-        $foreignKey = $this->foreignKey;
-
-        $this->parent->setAttr($foreignKey, null);
+        $this->parent->setAttr($this->foreignKey, null);
         $this->parent->save();
 
         return $this->parent->setRelation($this->relation, null);
