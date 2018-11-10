@@ -14,13 +14,13 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => Env::get('database.hostname', '127.0.0.1'),
+    'hostname'        => Env::get('database.hostname', '106.14.162.229'),
     // 数据库名
     'database'        => Env::get('database.database', 'myframe'),
     // 用户名
-    'username'        => Env::get('database.username', 'root'),
+    'username'        => Env::get('database.username', 'db_user'),
     // 密码
-    'password'        => Env::get('database.password', 'root'),
+    'password'        => Env::get('database.password', '131421'),
     // 端口
     'hostport'        => Env::get('database.hostport', '3306'),
     // 连接dsn
