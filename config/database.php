@@ -14,7 +14,7 @@ return [
     // 数据库类型
     'type'            => 'mysql',
     // 服务器地址
-    'hostname'        => Env::get('database.hostname', '106.14.162.229'),
+    'hostname'        => Env::get('database.hostname', '127.0.0.1'),
     // 数据库名
     'database'        => Env::get('database.database', 'myframe'),
     // 用户名

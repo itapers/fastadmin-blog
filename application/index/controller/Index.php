@@ -3,7 +3,7 @@
 namespace app\index\controller;
 
 use think\Controller;
-use wind\tree;
+use wind\Tree;
 use QL\QueryList;
 class Index extends Controller
 {
