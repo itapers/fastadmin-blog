@@ -1,0 +1,25 @@
+{include file="public/header" /}
+<div class="container-wrap">
+    <div class="container container-message container-details">
+        <div class="contar-wrap">
+            <div class="item">
+                <div class="item-box  layer-photos-demo1 layer-photos-demo">
+                    <h3><a href="details.html">{$data->title}</a></h3>
+                    <h5>发布于：<span>{$data->createtime}</span></h5>
+                    <p><?php echo htmlspecialchars_decode($data->content); ?></p>
+                    <img src="../res/static/images/item.png" alt="">
+                    <div class="count layui-clear">
+                        <span class="pull-left">阅读 <em>{$data->views}</em></span>
+                        <span class="pull-right like"><i class="layui-icon layui-icon-friends"></i><em>{$data->author}</em></span>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="container">
+        <div class="item-btn">
+            <a class="layui-btn layui-btn-green" href="javascript:;" onclick="javascript :history.back(-1)"><i class="layui-icon layui-icon-return"></i>返回</a>
+        </div>
+    </div>
+</div>
+{include file="public/footer" /}

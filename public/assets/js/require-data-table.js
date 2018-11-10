@@ -388,6 +388,7 @@ define([
                         value = value.toString();
                     }
                     var regNeg = /^(\d{1,4})(-|\/)(\d{1,2})\2(\d{1,2}) (\d{1,2}):(\d{1,2}):(\d{1,2})$/; //时间格式
+                    if (!value) { return ''; }
                     if(value.indexOf('-')>-1 || value.indexOf(':')>-1){
                         return value;
                     } else {
