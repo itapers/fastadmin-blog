@@ -47,7 +47,7 @@ define([
             Form.api.bindevent($("#update-form"), function () {
                 $("input[name='row[password]']").val('');
                 var url = $("#c-avatar").val();
-                top.window.$(".user-panel .image img,.user-menu > a > img,.user-header > img").prop("src", url);
+                // top.window.$(".user-panel .image img,.user-menu > a > img,.user-header > img").prop("src", url);
                 return true;
             });
         }

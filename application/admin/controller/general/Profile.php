@@ -11,6 +11,7 @@ namespace app\admin\controller\general;
 use app\common\controller\Backend;
 use app\admin\model\Actionlog;
 use Session;
+use wind\Random;
 
 class Profile extends Backend
 {
