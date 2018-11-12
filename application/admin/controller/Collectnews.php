@@ -11,7 +11,7 @@ namespace app\admin\controller;
 use app\common\controller\Backend;
 use QL\QueryList;
 
-class CollectNews extends Backend
+class Collectnews extends Backend
 {
     /**
      * 无需登录的方法,同时也就不需要鉴权了
