@@ -99,7 +99,7 @@ class Backend extends Controller
                 // Hook::listen('admin_nologin', $this);
                 $url = Session::get('referer');
                 $url = $url ? $url : $this->request->url();
-                $this->redirect($url);
+                $this->error('请登录后操作', url('index/login', ['url' => $url]));
             }
             // 判断是否需要验证权限
             if (!$this->auth->match($this->noNeedRight)) {
