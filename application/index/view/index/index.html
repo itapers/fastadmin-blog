@@ -65,7 +65,7 @@
 
                             for (var i = 0; i < res.data.length; i++) {
                                 // lis.push('<li>'+res.data[i].title+'</li>')
-                                lis.push('<div class="item"><div class="item-box  layer-photos-demo2 layer-photos-demo"><h3><a href="details?id=' + res.data[i].id + '">' + res.data[i].title + '</a></h3><h5>发布于：<span>' + res.data[i].createtime + '</span></h5><p>' + res.data[i].desc + '</p><img src="' + res.data[i].pic + '" alt="" style="width:120px;height:80px;"></div><div class="comment count"><a href="javascript:;">阅读量（' + res.data[i].views + '）</a><a href="/index/index/details?id=' + res.data[i].id + '" class="like">详情</a></div></div>')
+                                lis.push('<div class="item"><div class="item-box  layer-photos-demo2 layer-photos-demo"><h3><a href="/index/index/details?id=' + res.data[i].id + '">' + res.data[i].title + '</a></h3><h5>发布于：<span>' + res.data[i].createtime + '</span></h5><p>' + res.data[i].desc + '</p><img src="' + res.data[i].pic + '" alt="" style="width:120px;height:80px;"></div><div class="comment count"><a href="javascript:;">阅读量（' + res.data[i].views + '）</a><a href="/index/index/details?id=' + res.data[i].id + '" class="like">详情</a></div></div>')
                             }
                             var nn = (res.count) / 2;
                             next(lis.join(''), page < nn);

@@ -13,6 +13,13 @@ use QL\QueryList;
 
 class CollectNews extends Backend
 {
+    /**
+     * 无需登录的方法,同时也就不需要鉴权了
+     * @var array
+     */
+    protected $noNeedLogin = ['getNewsData'];
+
+    //采集新闻
     public function getNewsData()
     {
         $url = 'https://it.ithome.com/ityejie/';
