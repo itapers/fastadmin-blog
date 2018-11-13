@@ -3,8 +3,7 @@
 namespace app\index\controller;
 
 use think\Controller;
-use wind\Tree;
-use QL\QueryList;
+
 class Index extends Controller
 {
     /**
@@ -17,11 +16,9 @@ class Index extends Controller
     {
         parent::initialize();
         $this->model = model('admin/Article');
-        $this->view->assign("attrdataList", $this->model->getAttrdataList());
-        $all = model('admin/Category')->order("ord desc,id desc")->select()->toArray();
-        $tree = Tree::instance()->init($all, 'pid');
-        $channelOptions = $tree->getTree(0, "<option value='@id' @selected>@spacer@name</option>", '');
-        $this->assign('channelOptions', $channelOptions);
+        //查询分类
+        $all = model('admin/Category')->select()->toArray();
+        $this->assign('category', $all);
     }
 
     public function index()
@@ -31,12 +28,14 @@ class Index extends Controller
         //设置过滤方法
         $this->request->filter(['strip_tags']);
         if ($this->request->isAjax()) {
+            $category_id = input('post.cid',1);
             $page = input('post.page');
             $limit = input('post.limit');
             $list = $this->model
+                ->where('category_id',$category_id)
                 ->with(['category'])
                 ->order('createtime desc')
-                ->limit($page,$limit)
+                ->limit($page, $limit)
                 ->select();
             $result = ['data' => $list];
             return json($result);
@@ -49,9 +48,9 @@ class Index extends Controller
     {
         $id = input('get.id');
         $data = $this->model->find($id);
-        $this->assign('data',$data);
+        $this->assign('data', $data);
         //浏览量加1
-        $this->model->where('id',$id)->setInc('views');
+        $this->model->where('id', $id)->setInc('views');
         return $this->fetch();
     }
 
