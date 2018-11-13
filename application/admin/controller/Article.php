@@ -40,8 +40,8 @@ class Article extends Backend
         $this->request->filter(['strip_tags']);
         if ($this->request->isAjax()) {
 //            list($where, $sort, $order, $offset, $limit, $start, $length) = $this->buildparams();
-            $sort = input('get.sort');
-            $order = input('get.order');
+            $sort = input('get.sort','createtime');
+            $order = input('get.order','desc');
             $start = input('get.start');
             $length = input('get.length');
             $list = $this->model
