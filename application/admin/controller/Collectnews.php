@@ -39,6 +39,12 @@ class Collectnews extends Controller
             ->getData();
         $newsData = $rt->all();
         foreach ($newsData as $k=>$v) {
+            //查询数据库是否存在
+            $count = model('Article')->where('title',$v['title'])->count();
+            if ($count > 0) {
+                unset($newsData[$k]);
+                continue;
+            }
             $content = QueryList::get($v['link'])->find('#paragraph')->html();
             $author =  QueryList::get($v['link'])->find('#author_baidu>strong')->text();
             //替换为真实图片
@@ -49,6 +55,9 @@ class Collectnews extends Controller
             $newsData[$k]['createtime'] = time();
             $newsData[$k]['category_id'] = 1;
             $newsData[$k]['author'] = $author;
+
+
+
         }
         model('Article')->insertAll($newsData);
     }
@@ -73,6 +82,13 @@ class Collectnews extends Controller
             ->getData();
         $newsData = $rt->all();
         foreach ($newsData as $k=>$v) {
+            //查询数据库是否存在
+            $count = model('Article')->where('title',$v['title'])->count();
+            if ($count > 0) {
+                unset($newsData[$k]);
+                continue;
+            }
+
             $content = QueryList::get($v['link'])->find('#paragraph')->html();
             $author =  QueryList::get($v['link'])->find('#author_baidu>strong')->text();
             //替换为真实图片
@@ -108,6 +124,13 @@ class Collectnews extends Controller
             ->getData();
         $newsData = $rt->all();
         foreach ($newsData as $k=>$v) {
+            //查询数据库是否存在
+            $count = model('Article')->where('title',$v['title'])->count();
+            if ($count > 0) {
+                unset($newsData[$k]);
+                continue;
+            }
+
             $content = QueryList::get($v['link'])->find('#paragraph')->html();
             $author =  QueryList::get($v['link'])->find('#author_baidu>strong')->text();
             //替换为真实图片
@@ -142,6 +165,13 @@ class Collectnews extends Controller
             ->getData();
         $newsData = $rt->all();
         foreach ($newsData as $k=>$v) {
+            //查询数据库是否存在
+            $count = model('Article')->where('title',$v['title'])->count();
+            if ($count > 0) {
+                unset($newsData[$k]);
+                continue;
+            }
+
             $content = QueryList::get($v['link'])->find('#paragraph')->html();
             $author =  QueryList::get($v['link'])->find('#author_baidu>strong')->text();
             //替换为真实图片
