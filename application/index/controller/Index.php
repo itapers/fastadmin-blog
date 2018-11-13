@@ -50,6 +50,8 @@ class Index extends Controller
         $id = input('get.id');
         $data = $this->model->find($id);
         $this->assign('data',$data);
+        //浏览量加1
+        $this->model->where('id',$id)->setInc('views');
         return $this->fetch();
     }
 
