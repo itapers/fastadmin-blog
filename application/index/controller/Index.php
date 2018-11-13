@@ -28,7 +28,7 @@ class Index extends Controller
         //设置过滤方法
         $this->request->filter(['strip_tags']);
         if ($this->request->isAjax()) {
-            $category_id = input('post.cid',1);
+            $category_id = input('post.cid',1) ? input('post.cid',1) : 1;
             $page = input('post.page');
             $limit = input('post.limit');
             $list = $this->model
