@@ -155,4 +155,6 @@ class Collectnews extends Controller
         }
         model('Article')->insertAll($newsData);
     }
+
+
 }
