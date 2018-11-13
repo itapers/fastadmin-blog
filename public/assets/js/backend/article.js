@@ -69,6 +69,8 @@ define(['jquery', 'bootstrap', 'backend', 'datatable', 'form','async!BMap'], fun
                         return dataTable.api.formatter.operate("id", data)
                     }
                 }],
+                //开启服务端模式
+                "serverSide": true,
                 "showExport": true,
                 "exportIgnoreColumn": [7],
                 "showColumn": true,

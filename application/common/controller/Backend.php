@@ -5,6 +5,7 @@
  * @Last Modified by:   hippo
  * @Last Modified time: 2018-07-10 16:46:00
  */
+
 namespace app\common\controller;
 
 use app\admin\library\Auth;
@@ -109,9 +110,6 @@ class Backend extends Controller
                     $this->error('你没有权限访问', '');
                 }
             }
-            
-
-
 
 
         }
@@ -217,6 +215,8 @@ class Backend extends Controller
         $order = $this->request->get("order", "DESC");
         $offset = $this->request->get("offset", 0);
         $limit = $this->request->get("limit", 0);
+        $start = $this->request->get("start", 0);
+        $length = $this->request->get("length", 0);
         $filter = json_decode($filter, true);
         $op = json_decode($op, true);
         $filter = $filter ? $filter : [];
@@ -251,7 +251,7 @@ class Backend extends Controller
             switch ($sym) {
                 case '=':
                 case '!=':
-                    $where[] = [$k, $sym, (string) $v];
+                    $where[] = [$k, $sym, (string)$v];
                     break;
                 case 'LIKE':
                 case 'NOT LIKE':
@@ -329,7 +329,7 @@ class Backend extends Controller
                 }
             }
         };
-        return [$where, $sort, $order, $offset, $limit];
+        return [$where, $sort, $order, $offset, $limit, $start, $length];
     }
 
     /**
@@ -345,7 +345,7 @@ class Backend extends Controller
         $this->request->filter(['strip_tags', 'htmlspecialchars']);
 
         //搜索关键词,客户端输入以空格分开,这里接收为数组
-        $word = (array) $this->request->request("q_word/a");
+        $word = (array)$this->request->request("q_word/a");
         //当前页
         $page = $this->request->request("pageNumber");
         //分页大小
@@ -353,7 +353,7 @@ class Backend extends Controller
         //搜索条件
         $andor = $this->request->request("andOr");
         //排序方式
-        $orderby = (array) $this->request->request("orderBy/a");
+        $orderby = (array)$this->request->request("orderBy/a");
         //显示的字段
         $field = $this->request->request("showField");
         //主键
@@ -361,9 +361,9 @@ class Backend extends Controller
         //主键值
         $primaryvalue = $this->request->request("keyValue");
         //搜索字段
-        $searchfield = (array) $this->request->request("searchField/a");
+        $searchfield = (array)$this->request->request("searchField/a");
         //自定义搜索条件
-        $custom = (array) $this->request->request("custom/a");
+        $custom = (array)$this->request->request("custom/a");
         $order = [];
         foreach ($orderby as $k => $v) {
             $order[$v[0]] = $v[1];

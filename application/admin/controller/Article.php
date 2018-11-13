@@ -39,15 +39,22 @@ class Article extends Backend
         //设置过滤方法
         $this->request->filter(['strip_tags']);
         if ($this->request->isAjax()) {
-            list($where, $sort, $order, $offset, $limit) = $this->buildparams();
+//            list($where, $sort, $order, $offset, $limit, $start, $length) = $this->buildparams();
+            $sort = input('get.sort');
+            $order = input('get.order');
+            $start = input('get.start');
+            $length = input('get.length');
             $list = $this->model
+                //->where($where)
                 ->with(['category'])
-                ->where($where)
                 ->order($sort, $order)
-                ->limit($offset, $limit)
+                ->limit($start, $length)
                 ->select();
-
-            $result = ['data' => $list];
+            $count = $this->model
+                //->where($where)
+                ->with(['category'])
+                ->count();
+            $result = ['data' => $list, 'recordsTotal' => $count, 'recordsFiltered' => $count];
             return json($result);
         }
         return $this->view->fetch();
