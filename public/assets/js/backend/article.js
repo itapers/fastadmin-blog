@@ -69,6 +69,7 @@ define(['jquery', 'bootstrap', 'backend', 'datatable', 'form','async!BMap'], fun
                         return dataTable.api.formatter.operate("id", data)
                     }
                 }],
+                'dom': '<t>ipr',
                 //开启服务端模式
                 "serverSide": true,
                 "showExport": true,
@@ -80,6 +81,24 @@ define(['jquery', 'bootstrap', 'backend', 'datatable', 'form','async!BMap'], fun
                     add_url: 'article/add',
                     edit_url: 'article/edit',
                     del_url: 'article/del'
+                },
+                "initComplete": function() {
+                    //TODO:调整输入框的样式问题
+                    var _$this = this;
+                    var searchHTML = '<div id="table_filter" class="dataTables_filter" style="float: right; margin-right: 5px;"><label><input type="search" class="form-control" placeholder="请输入查询内容" aria-controls="table"></label></div>';
+                    //快捷操作的HTML DOM
+                    $('#toolbar').append(searchHTML);
+                    //重写搜索事件
+                    $('#table_filter input').bind({
+                        keyup: function(e) {
+                            if (e.keyCode == 13) {
+                                _$this.api().search(this.value).draw();
+                            }
+                        },
+                        blur: function() {
+                            _$this.api().search(this.value).draw();
+                        }
+                    });
                 }
             });
 
