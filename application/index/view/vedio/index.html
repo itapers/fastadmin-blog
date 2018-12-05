@@ -1,0 +1,73 @@
+{include file="public/videoheader" /}
+
+
+
+<div class="col-xs-12 col-sm-10 col-md-8 col-lg-7 center-block" style="float: none;margin-top: 100px;">
+    <!--<h3 class="text-muted" align="center">VIP视频在线解析</h3>-->
+    <hr>
+    <section style="padding: 20px 10px; border-width: 0px 0px 0px; border-style: solid none none; border-left-color: rgb(219, 219, 219); border-top-color: rgb(255, 255, 255); border-bottom-left-radius: 2%; border-bottom-right-radius: 2%;" class="135brush">
+        <p style="letter-spacing: 1px; text-align: center;">
+                <span style="color: #7F7F7F;">免费全网VIP视频会员免广告看电影！亲们如果觉得好用，请帮我们传播！ 若播放异常，刷新，更换接口尝试哦！
+</span>
+        </p>
+
+    </section>
+    </section>
+    </section>
+    <div class="col-md-14 column">
+        <div class="panel panel-default">
+            <div id="kj" class="panel-body">
+                <iframe src="https://www.jqaaa.com/jx.php?url={$url}" id="player" width="100%" height="600px" allowTransparency="true" allowfullscreen="true" frameborder="0" scrolling="no"></iframe>
+            </div>
+        </div>
+        <script>
+            if (navigator.userAgent.match(/(iPhone|iPod|Android|ios)/i)) {
+                document.getElementById("sdfdf").style.display = "block";
+            }
+        </script>
+    </div>
+    <script>
+
+        function dihejk() {
+            var diz = document.getElementById("url").value;
+            var jkurl = document.getElementById("jk");
+            var jk = document.getElementById("jk").selectedIndex;
+            var jkv = jkurl.options[jk].value;
+            var cljurl = document.getElementById("player");
+            $('#player').attr('src',jkv + diz);
+        }
+    </script>
+    <div class="col-md-14 column">
+        <form method="get" id="1233911832"></form>
+        <div class="input-group" style="width: 100%;">
+            <span class="input-group-addon input-lg" style="width: 80px; ">选择接口</span>
+            <select class="form-control input-lg" id="jk">
+                <option value="https://www.jqaaa.com/jx.php?url=" selected="">④号通用vip引擎系统【稳定通用】</option>
+                <option value="http://jx.ovov.cc/?url=" >③号通用vip引擎系统【稳定通用】</option>
+                <option value="http://jx.618ge.com/?url=" >②号通用vip引擎系统【稳定通用】</option>
+                <option value="http://vip.jlsprh.com/?url=" >①号通用vip引擎系统【稳定通用】</option>
+            </select>
+            <!-- 全网通用解析接口 http://jx.aeidu.cn/index.php?url= -->
+        </div>
+        <br>
+
+        <div class="input-group" style="width: 100%;">
+            <span class="input-group-addon input-lg" style="width: 80px;">播放地址</span>
+            <input class="form-control input-lg" type="search" placeholder="电脑使用Ctrl+V粘贴网址-手机直接长按粘贴网址" id="url" value="{$url}">
+        </div>
+        <br>
+        <div>
+            <button id="bf1" type="button" class="btn btn-success btn-lg btn-block" onClick="dihejk()">Go-点击开始解析</button>
+        </div>
+    </div>
+
+</div>
+
+    <!--底部开始-->
+
+
+    <!--底部结束-->
+
+
+</body>
+</html>

@@ -41,7 +41,12 @@ class Article extends Backend
         if ($this->request->isAjax()) {
             $rr = input('get.');
             $rows['where'] = $rr['search']['value'];
-            $where = [['title|name','like', '%' . $rows['where'] . '%']];
+            $where[] = ['title|name','like', '%' . $rows['where'] . '%'];
+            //过滤超级管理员
+            if (session('admin.id') > 1) {
+                //非超级管理员只能看到自己发布的文章
+                $where[] = ['from','=',session('admin.id')];
+            }
             $list = $this->model
                 ->where($where)
                 ->with(['category'])
@@ -89,4 +94,5 @@ class Article extends Backend
 
         return $this->fetch();
     }
+
 }

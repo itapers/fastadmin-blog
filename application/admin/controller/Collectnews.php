@@ -173,7 +173,7 @@ class Collectnews extends Controller
             }
 
             $content = QueryList::get($v['link'])->find('#paragraph')->html();
-            $author =  QueryList::get($v['link'])->find('#author_baidu>strong')->text();
+            $author  =  QueryList::get($v['link'])->find('#author_baidu>strong')->text();
             //替换为真实图片
             $content = preg_replace ('/src=".*?"/', '', $content);
             $content = str_replace("data-original","src",$content);
